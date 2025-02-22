@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 
 @Entity
-@Table(name = "Editorial")
+@Table(name = "editorial")
 public class Editorial {
 
     @Id
@@ -28,4 +28,8 @@ public class Editorial {
     @OneToMany(mappedBy = "editorial", fetch = FetchType.LAZY)
     private List<Libro> libros;
 
+    public Editorial(String nombre, String direccion) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+    }
 }

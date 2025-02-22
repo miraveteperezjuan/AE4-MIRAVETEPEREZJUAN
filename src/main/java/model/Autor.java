@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 
 @Entity
-@Table (name = "Autor")
+@Table (name = "autor")
 public class Autor {
 
     @Id
@@ -31,5 +31,9 @@ public class Autor {
     @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
     private List<Libro> libros;
 
-
+    public Autor(String nombre, String apellido, Date fechaNacimiento) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+    }
 }
