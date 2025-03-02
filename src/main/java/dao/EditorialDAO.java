@@ -1,7 +1,6 @@
 package dao;
 
 import database.HibernateUtil;
-import model.Autor;
 import model.Editorial;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -18,7 +17,6 @@ public class EditorialDAO {
         session.persist(editorial);
         session.getTransaction().commit();
         session.close();
-        System.out.println("Editorial agregado exitosamente.");
     }
 
     public Editorial getEditorial(int id){
@@ -39,17 +37,4 @@ public class EditorialDAO {
         session.close();
         return listaEditorial;
     }
-
-    public List<Editorial> obtenerEditorial(String nombre) {
-        session = new HibernateUtil().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        String querySTR = "FROM Editorial j WHERE j.nombre = :nombre ";
-        Query<Editorial> query = session.createQuery(querySTR,Editorial.class);
-        query.setParameter("nombre",nombre);
-        List<Editorial> listaEditorial = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return listaEditorial;
-    }
-
 }

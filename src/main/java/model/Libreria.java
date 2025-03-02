@@ -23,7 +23,7 @@ public class Libreria implements Serializable {
     private int id;
     @Column
     private String nombre;
-    @Column
+    @Column(name = "nombre_duenio")
     private String nombreDuenio;
     @Column
     private String direccion;
@@ -37,5 +37,12 @@ public class Libreria implements Serializable {
         this.nombre = nombre;
         this.nombreDuenio = nombreDuenio;
         this.direccion = direccion;
+    }
+
+    public Libreria(String nombre, String nombreDuenio, String direccion, List<Libro> libros) {
+        this.nombre = nombre;
+        this.nombreDuenio = nombreDuenio;
+        this.direccion = direccion;
+        this.libros = libros;
     }
 }

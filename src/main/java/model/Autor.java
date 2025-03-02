@@ -25,7 +25,7 @@ public class Autor {
     private String nombre;
     @Column
     private String apellido;
-    @Column
+    @Column(name = "fecha_Nacimiento")
     private Date fechaNacimiento;
 
     @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)

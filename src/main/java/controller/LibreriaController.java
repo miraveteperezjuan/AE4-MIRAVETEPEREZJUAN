@@ -38,17 +38,16 @@ public class LibreriaController {
         System.out.println("3. Dar de alta un libro");
         System.out.println("4. Dar de alta una libreria");
         System.out.println("5. Mostrar todos los libros dados de alta, con su editorial y su autor");
-        System.out.println("6.Mostrar todos los autores dados de alta, con sus libros asociados");
-        System.out.println("7.Mostrar todas las librerías, con solamente sus libros asociados");
-        System.out.println("8.Mostrar todos los libros dados de alta, y en la librería en la que están.");
-        System.out.println("9.Salir");
+        System.out.println("6. Mostrar todos los autores dados de alta, con sus libros asociados");
+        System.out.println("7. Mostrar todas las librerías, con solamente sus libros asociados");
+        System.out.println("8. Mostrar todos los libros dados de alta, y en la librería en la que están.");
+        System.out.println("9. Salir");
+        System.out.println("---------------------------------");
         System.out.print("Elige una opción: ");
     }
 
     public void menu() {
         int option;
-        Scanner scanner = new Scanner(System.in);
-
         do {
             opciones();
             option = scanner.nextInt();
@@ -92,46 +91,38 @@ public class LibreriaController {
         List<Libro> libros = libroDAO.obtenerTodosLibros();
 
         for (Libro libro : libros) {
-            System.out.println("Título: " + libro.getTitulo() + " | Precio: " + libro.getPrecio());
+            System.out.println("El título del libro es " + libro.getTitulo() + " y su precio es de " + libro.getPrecio() + "€ y se encuentra en la libreria: ");
 
             List<Libreria> librerias = libreriaDAO.obtenerLibreriasPorLibro(libro);
 
             if (librerias != null && !librerias.isEmpty()) {
-                System.out.print("   - En las siguientes librerías: ");
                 for (Libreria libreria : librerias) {
+                    System.out.println("- " + libreria.getNombre());
                 }
-                System.out.println();
+                System.out.println("------------------------------------------");
             } else {
-                System.out.println("   - No está asociado a ninguna librería.");
+                System.out.println("No está asociado a ninguna librería.");
+                System.out.println("------------------------------------------");
             }
         }
-
     }
 
     private void listarLibrerias() {
         List<Libreria> librerias = libreriaDAO.obtenerTodasLibrerias();
         for (Libreria libreria : librerias) {
-            System.out.println("===============================================");
-            System.out.println("Librería: " + libreria.getNombre());
-            System.out.println("Dueño: " + libreria.getNombreDuenio());
-            System.out.println("Dirección: " + libreria.getDireccion());
-            System.out.println("===============================================");
+            System.out.println("-----------------------------------------------");
+            System.out.println("La librería " + libreria.getNombre() + " pertenece a " + libreria.getNombreDuenio() + " y se encuentra en " + libreria.getDireccion() + ".");
             List<Libro> libros = libreria.getLibros();
-
             if (libros != null && !libros.isEmpty()) {
-                System.out.println("Libros disponibles:");
-                System.out.println("-----------------------------------------------");
+                System.out.println(libreria.getNombre() + " tiene los siguientes libros disponibles:");
                 for (Libro libro : libros) {
-                    System.out.println("   - Título: " + libro.getTitulo() + " | Precio: " + libro.getPrecio());
+                    System.out.println("- " + libro.getTitulo() + " y su precio es de: " + libro.getPrecio() + "€");
                 }
                 System.out.println("-----------------------------------------------");
             } else {
                 System.out.println("Esta librería no tiene libros asociados.");
             }
-
-
         }
-
     }
 
     private void listarAutores() {
@@ -143,21 +134,20 @@ public class LibreriaController {
             List<Libro> libros = libroDAO.obtenerLibrosPorAutor(autor.getId());
 
             if (libros != null && !libros.isEmpty()) {
-                System.out.println("Libros asociados:");
+                System.out.println("Sus libros son los siguientes:");
                 for (Libro libro : libros) {
-                    System.out.println("   - Título: " + libro.getTitulo() + ", Precio: " + libro.getPrecio());
+                    System.out.println("- " + libro.getTitulo() + " y su precio es de: " + libro.getPrecio() + "€");
                 }
                 System.out.println("---------------------------");
             } else {
                 System.out.println("Este autor no tiene libros asociados.");
             }
         }
-
     }
 
     private void listarLibros() {
         List<Libro> libros = libroDAO.obtenerTodosLibros();
-        System.out.println("Lista de libros registrados:");
+        System.out.println("Lista de libros registrados en esta base de datos:");
         System.out.println("--------------------------------");
         for (Libro libro : libros) {
             System.out.println("Título: " + libro.getTitulo());
@@ -172,10 +162,8 @@ public class LibreriaController {
 
         System.out.println("Introduce el nombre de la librería:");
         String nombre = scanner.nextLine();
-
         System.out.println("Introduce el nombre del dueño:");
         String duenio = scanner.nextLine();
-
         System.out.println("Introduce la dirección de la librería:");
         String direccion = scanner.nextLine();
 
@@ -188,45 +176,29 @@ public class LibreriaController {
         List<Libro> librosSeleccionados = new ArrayList<>();
 
         while (librosSeleccionados.size() < 4) {
-            System.out.println("Introduce el número del libro que deseas agregar (de 1 a " + librosDisponibles.size() + "):");
+            System.out.print("Introduce el número del libro (1-" + librosDisponibles.size() + "): ");
             int seleccion = scanner.nextInt();
 
-            // Validar que la selección esté dentro del rango
             if (seleccion > 0 && seleccion <= librosDisponibles.size()) {
                 Libro libroSeleccionado = librosDisponibles.get(seleccion - 1);
                 if (!librosSeleccionados.contains(libroSeleccionado)) {
                     librosSeleccionados.add(libroSeleccionado);
+                    System.out.println("Libro añadido: " + libroSeleccionado.getTitulo());
                 } else {
-                    System.out.println("Este libro ya ha sido seleccionado. Elige otro.");
+                    System.out.println("Ese libro ya fue seleccionado.");
                 }
             } else {
-                System.out.println("Selección inválida. Por favor, elige un número entre 1 y " + librosDisponibles.size() + ".");
-            }
-
-            // Si ya tiene 4 libros seleccionados, no seguir pidiendo más
-            if (librosSeleccionados.size() == 4) {
-                break;
+                System.out.println("Selección inválida. Intenta nuevamente.");
             }
         }
 
-        Libreria libreria = new Libreria();
-        libreria.setNombre(nombre);
-        libreria.setNombreDuenio(duenio);
-        libreria.setDireccion(direccion);
-
-        // Paso 5: Asociar los libros seleccionados a la librería
-        libreria.setLibros(librosSeleccionados);
-
-        // Paso 6: Guardar la librería en la base de datos
-        libreriaDAO.crearLibreria(libreria);
+        libreriaDAO.crearLibreria(new Libreria(nombre,duenio,direccion,librosSeleccionados));
         System.out.println("Librería creada con éxito.");
-
     }
 
     private void agregarLibro() {
         double precio = 0;
 
-        // Mostrar los autores disponibles
         System.out.println("Lista de autores disponibles:");
         for (Autor item : autorDAO.getAllAutores()) {
             System.out.println("El nombre del autor es: " + item.getNombre() + " y su id es: " + item.getId());
@@ -234,14 +206,13 @@ public class LibreriaController {
         System.out.println("Introduce el id del autor al que quieres asociar este libro:");
         int idA = scanner.nextInt();
 
-        // Buscar el autor por el id
         Autor autor = autorDAO.getAutor(idA);
+
         if (autor == null) {
             System.out.println("No se encontró un autor con ese id.");
             return;
         }
 
-        // Mostrar las editoriales disponibles
         System.out.println("Lista de editoriales disponibles:");
         for (Editorial item1 : editorialDAO.getAllEditorial()) {
             System.out.println("El nombre de la editorial es: " + item1.getNombre() + " y su id es: " + item1.getId());
@@ -249,16 +220,14 @@ public class LibreriaController {
         System.out.println("Introduce el id de la editorial al que quieres asociar este libro:");
         int idE = scanner.nextInt();
 
-        // Buscar la editorial por el id
         Editorial editorial = editorialDAO.getEditorial(idE);
         if (editorial == null) {
             System.out.println("No se encontró una editorial con ese id.");
             return;
         }
 
-        // Solicitar el título y precio del libro
         System.out.println("Introduce el titulo del libro:");
-        scanner.nextLine();  // Limpiar el buffer
+        scanner.nextLine();
         String titulo = scanner.nextLine();
 
         System.out.println("Introduce el precio del libro:");
@@ -270,7 +239,6 @@ public class LibreriaController {
     }
 
     private void agregarEditorial() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Introduce el nombre de la editorial:");
         String nombre = scanner.next();
         System.out.println("Introduce su dirección:");
@@ -279,10 +247,8 @@ public class LibreriaController {
     }
 
     private void agregarAutor() {
-        Scanner scanner = new Scanner(System.in);
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date fechaNacimiento = null;
-
         System.out.println("Introduce el nombre:");
         String nombre = scanner.next();
         System.out.println("Introduce el apellido:");
@@ -296,7 +262,6 @@ public class LibreriaController {
             System.out.println("Autor agregado exitosamente.");
         } catch (ParseException e) {
             System.out.println("Formato de fecha incorrecto. Por favor, introduce la fecha en el formato dd/MM/yyyy.");
-
         }
     }
 }

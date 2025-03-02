@@ -38,37 +38,12 @@ public class LibroDAO {
     public List<Libro> obtenerLibrosPorAutor(int autorId) {
         session = new HibernateUtil().getSessionFactory().getCurrentSession();
         session.beginTransaction();
-
-        // Consulta HQL para obtener los libros asociados al autor
         String querySTR = "FROM Libro j WHERE j.autor.id = :autorId";
         Query<Libro> query = session.createQuery(querySTR, Libro.class);
         query.setParameter("autorId", autorId);
-
-        // Ejecutar la consulta y obtener la lista de libros
         List<Libro> listaLibros = query.getResultList();
-
-        // Cometer la transacción y cerrar la sesión
         session.getTransaction().commit();
         session.close();
-
         return listaLibros;
     }
-
-    public void actualizarLibro(Libro libro) {
-        session = new HibernateUtil().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.merge(libro);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    public Libro obtenerLibroPorId(int id) {
-        session = new HibernateUtil().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        Libro libro = session.get(Libro.class, id);
-        session.getTransaction().commit();
-        session.close();
-        return libro;
-    }
-
 }

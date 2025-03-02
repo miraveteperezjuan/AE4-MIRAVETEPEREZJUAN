@@ -17,7 +17,6 @@ public class AutorDAO {
         session.persist(autor);
         session.getTransaction().commit();
         session.close();
-        System.out.println("Autor agregado exitosamente.");
     }
 
     public Autor getAutor(int id){
@@ -42,18 +41,10 @@ public class AutorDAO {
     public List<Autor> obtenerTodosAutor() {
         session = new HibernateUtil().getSessionFactory().getCurrentSession();
         session.beginTransaction();
-
-        // Consulta HQL para obtener todos los libros
-        Query<Autor> query = session.createQuery("from Autor", Autor.class);
-
-        // Ejecutar la consulta y obtener la lista de libros
+        Query<Autor> query = session.createQuery("FROM Autor", Autor.class);
         List<Autor> listaAutores = query.getResultList();
-
-        // Cometer la transacción y cerrar la sesión
         session.getTransaction().commit();
         session.close();
         return listaAutores;
     }
-
-
 }
