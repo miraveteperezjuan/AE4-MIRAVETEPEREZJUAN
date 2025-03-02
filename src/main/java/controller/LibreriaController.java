@@ -253,7 +253,7 @@ public class LibreriaController {
         String nombre = scanner.next();
         System.out.println("Introduce el apellido:");
         String apellido = scanner.next();
-        System.out.println("Introduce el fecha de nacimiento:");
+        System.out.println("Introduce la fecha de nacimiento:");
         String nacimiento = scanner.next();
 
         try {
